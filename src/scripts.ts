@@ -92,7 +92,7 @@ ${lot.description}
       textColor,
       width: g.game.width,
       x: 0,
-      y: 100,
+      y: 50,
       textAlign: g.TextAlign.Center
     });
     e.append(label);
@@ -198,7 +198,7 @@ ${itemTexts.join("\n")}
   if (scene.gameState.variables.current.trials < scene.gameState.variables.system.maxTrials) {
     const layer = {
       name: "button",
-      x: scene.game.width - 290,
+      x: scene.game.width - 300,
       y: 380
     };
     const link = createLink(controller, {
@@ -230,6 +230,8 @@ ${itemTexts.join("\n")}
   novel.Engine.scriptManager.call(controller, finish);
 };
 
+const atsumaru = (window as any).RPGAtsumaru;
+
 export const registerScripts = (engine: novel.Engine) => {
   engine.script(Tag.drawLot, drawLot);
   const fadeInScript = novel.defaultScripts.get(core.Tag.fadeIn);
@@ -250,7 +252,7 @@ export const registerScripts = (engine: novel.Engine) => {
     ];
     fadeOutScript(controller, data);
   });
-  engine.script(Tag.enterScene, (controller: novel.SceneController, data: {}) => {
+  engine.script(Tag.enterScene, (controller: novel.SceneController) => {
     const scene = controller.current;
     scene.disableWindowClick();
     scene.transition("black", (layer: g.E) => {
@@ -258,7 +260,7 @@ export const registerScripts = (engine: novel.Engine) => {
       timeline.create(layer, {modified: layer.modified, destroyed: layer.destroyed}).fadeOut(duration);
     });
   });
-  engine.script(Tag.clearData, (controller: novel.SceneController, data: {}) => {
+  engine.script(Tag.clearData, (controller: novel.SceneController) => {
     controller.current.gameState.variables.current.gacha = {};
     controller.current.gameState.variables.current.score = 1000;
     controller.current.gameState.variables.current.trials = 0;
@@ -285,7 +287,7 @@ export const registerScripts = (engine: novel.Engine) => {
   //  throw e;
   //});
 
-  engine.script("newgame", (controller: novel.SceneController, data: {}) => {
+  engine.script("newgame", (controller: novel.SceneController) => {
     const layer = {
       name: "button",
       x: g.game.width / 2 - 100,
@@ -314,5 +316,44 @@ export const registerScripts = (engine: novel.Engine) => {
       layer
     });
     controller.current.appendLayer(link, layer);
+  });
+  engine.script("record", (controller: novel.SceneController) => {
+    if (atsumaru) {
+      atsumaru.experimental.scoreboards.setRecord(0, controller.current.gameState.variables.current.score);
+    }
+  });
+  engine.script(Tag.ranking, (controller: novel.SceneController) => {
+    const layer = {
+      name: "button",
+      x: g.game.width - 210,
+      y: 380
+    };
+    const link = createLink(controller, {
+      tag: core.Tag.link,
+      width: 200,
+      height: 32,
+      text: "ランキング",
+      fontSize: 32,
+      backgroundImage: "red",
+      padding: 4,
+      backgroundEffector: {
+        borderWidth: 4
+      },
+      scripts: [
+        {
+          tag: core.Tag.extension,
+          data: {
+            tag: Tag.showRanking
+          }
+        }
+      ],
+      layer
+    });
+    controller.current.appendLayer(link, layer);
+  });
+  engine.script(Tag.showRanking, (controller: novel.SceneController) => {
+    if (atsumaru) {
+      atsumaru.experimental.scoreboards.display(0);
+    }
   });
 };

@@ -42,7 +42,7 @@ export const finish: core.Link = {
   text: "おわる",
   layer: {
     name: "button",
-    x: g.game.width - 140,
+    x: g.game.width - 150,
     y: 380
   },
   width: 140,

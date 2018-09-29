@@ -5,4 +5,6 @@ export namespace Tag {
   export const gachaResult = "gachaResult";
   export const gachaDetail = "gachaDetail";
   export const nextScene = "nextScene";
+  export const ranking = "ranking";
+  export const showRanking = "showRanking";
 }
