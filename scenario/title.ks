@@ -1,4 +1,6 @@
 [clearData ]
+[image storage="yellow" layer=black opacity=0]
+[image storage="red" layer=black opacity=0]
 [image storage="top" layer=background]
 [layopt layer=message visible=false]
 [ranking ]

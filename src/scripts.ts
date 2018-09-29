@@ -101,10 +101,10 @@ ${lot.description}
       text: "ガチャをまわす",
       layer: {
         name: "button",
-        x: scene.game.width / 2 - 100,
+        x: scene.game.width / 2 - 120,
         y: 300
       },
-      width: 200,
+      width: 240,
       height: 32,
       fontSize: 32,
       backgroundImage: "yellow",
