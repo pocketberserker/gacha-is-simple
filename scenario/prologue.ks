@@ -1,4 +1,17 @@
 [image storage=black layer=background]
+[if exp="sf.markPrologue"]
+[jump target=*question]
+[else]
+[jump target=*rule]
+[endif]
+*question
+[cm]
+ルール説明をスキップしますか？
+[l]
+[link target=*next]はい[endlink]
+[link target=*rule]いいえ[endlink]
+[s]
+*rule
 [cm]
 突然ですが、あなたにはガチャをまわしてもらいます。
 [l]
@@ -23,11 +36,15 @@
 【ルール5】[r]
 最終的な所持ポイントをスコアとして登録します。
 [l]
+[iscript]
+sf.markPrologue = true;
+[endscript]
 [cm]
 たくさんまわすも、一度もまわさないもあなた次第！
 [l]
 [cm]
 確率の沼で試行錯誤し、高スコアを目指しましょう！
 [l]
+*next
 [image storage=black layer=black opacity=0]
 [nextScene label="gacha"]

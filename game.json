@@ -142,6 +142,16 @@
 			"type": "script",
 			"path": "script/GachaImpl.js",
 			"global": true
+		},
+		"prologue_0_1_0": {
+			"type": "script",
+			"path": "script/prologue_0_1_0.js",
+			"global": true
+		},
+		"prologue_9_0": {
+			"type": "script",
+			"path": "script/prologue_9_0.js",
+			"global": true
 		}
 	},
 	"environment": {
