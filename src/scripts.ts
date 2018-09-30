@@ -231,6 +231,7 @@ ${itemTexts.join("\n")}
 };
 
 const atsumaru = (window as any).RPGAtsumaru;
+const boardId = 1;
 
 export const registerScripts = (engine: novel.Engine) => {
   engine.script(Tag.drawLot, drawLot);
@@ -319,7 +320,7 @@ export const registerScripts = (engine: novel.Engine) => {
   });
   engine.script("record", (controller: novel.SceneController) => {
     if (atsumaru) {
-      atsumaru.experimental.scoreboards.setRecord(0, controller.current.gameState.variables.current.score);
+      atsumaru.experimental.scoreboards.setRecord(boardId, controller.current.gameState.variables.current.score);
     }
   });
   engine.script(Tag.ranking, (controller: novel.SceneController) => {
@@ -353,7 +354,7 @@ export const registerScripts = (engine: novel.Engine) => {
   });
   engine.script(Tag.showRanking, (controller: novel.SceneController) => {
     if (atsumaru) {
-      atsumaru.experimental.scoreboards.display(0);
+      atsumaru.experimental.scoreboards.display(boardId);
     }
   });
 };
