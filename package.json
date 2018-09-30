@@ -10,7 +10,7 @@
     "scan:assets": "akashic scan asset",
     "prettier": "prettier --write '**/*.ts'",
     "font:generate": "node ./scripts/font.js",
-    "bundle": "akashic export html --strip --magnify --output ./dist",
+    "bundle": "akashic export html --magnify --output ./dist",
     "precommit": "lint-staged"
   },
   "dependencies": {
