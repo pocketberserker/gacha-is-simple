@@ -25,6 +25,7 @@ const drawLot = (controller: novel.SceneController, data: DrawLot) => {
   scene.gameState.variables.current.trials++;
   const result = gacha.draw(data.id);
   scene.gameState.variables.current.gacha = {
+    id: data.id,
     price: result.price,
     items: result.items
   };
@@ -125,6 +126,11 @@ ${lot.description}
     e.append(link);
 
     pagination.content.append(e);
+  }
+
+  if (scene.gameState.variables.current.gacha) {
+    const index = gacha.lots.findIndex(l => l.id === scene.gameState.variables.current.gacha.id);
+    pagination.moveOffset(index);
   }
 }
 
