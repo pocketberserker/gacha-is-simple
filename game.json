@@ -95,7 +95,7 @@
 		},
 		"font": {
 			"type": "image",
-			"width": 512,
+			"width": 1024,
 			"height": 512,
 			"path": "image/font.png",
 			"global": true
