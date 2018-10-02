@@ -14,7 +14,7 @@ interface DrawLot {
 }
 
 interface NextScene {
-  tag: "nextScene",
+  tag: "nextScene";
   label: string;
 }
 
@@ -30,8 +30,9 @@ const drawLot = (controller: novel.SceneController, data: DrawLot) => {
     items: result.items
   };
   scene.transition("black", (layer: g.E) => {
-    const timeline = new tl.Timeline(scene);
-    timeline.create(layer, {modified: layer.modified, destroyed: layer.destroyed})
+    const timeline = new tl.Timeline(scene.body);
+    timeline
+      .create(layer, {modified: layer.modified, destroyed: layer.destroyed})
       .fadeIn(duration)
       .call(() => {
         controller.jump(result.target);
@@ -42,7 +43,7 @@ const drawLot = (controller: novel.SceneController, data: DrawLot) => {
 const makeGachaPage = (controller: novel.SceneController) => {
   const scene = controller.current;
   const pagination = new pg.Pagination({
-    scene,
+    scene: scene.body,
     x: 0,
     y: 0,
     width: scene.game.width,
@@ -69,19 +70,19 @@ const makeGachaPage = (controller: novel.SceneController) => {
     type: core.VariableType.builtin,
     name: core.BuiltinVariable.fontColor
   });
-  const score = scene.gameState.getStringValue({
+  const score = scene.gameState.findStringValue({
     type: core.VariableType.current,
     name: "score"
   });
   const remaining = scene.gameState.variables.system.maxTrials - scene.gameState.variables.current.trials;
   for (const lot of gacha.lots) {
     const e = new g.E({
-      scene,
+      scene: scene.body,
       width: g.game.width,
       height: g.game.height
     });
     const label = new al.Label({
-      scene,
+      scene: scene.body,
       font,
       text: `【${lot.name}】
 ${lot.description}
@@ -132,22 +133,19 @@ ${lot.description}
     const index = gacha.lots.findIndex(l => l.id === scene.gameState.variables.current.gacha.id);
     pagination.moveOffset(index);
   }
-}
+};
 
-const count = (array: Item[]): { [id: string]: number } => {
-  return array.reduce(
-    (group: { [id: string]: number }, item) => {
-      if (item.id in group) {
-        group[item.id]++;
-        return group;
-      } else {
-        return Object.assign(group, {
-          [item.id]: 1
-        });
-      }
-    },
-    {}
-  );
+const count = (array: Item[]): {[id: string]: number} => {
+  return array.reduce((group: {[id: string]: number}, item) => {
+    if (item.id in group) {
+      group[item.id]++;
+      return group;
+    } else {
+      return Object.assign(group, {
+        [item.id]: 1
+      });
+    }
+  }, {});
 };
 
 const gachaResult = (controller: novel.SceneController) => {
@@ -182,7 +180,7 @@ const gachaResult = (controller: novel.SceneController) => {
   scene.gameState.variables.current.score = finalScore;
 
   const label = new al.Label({
-    scene,
+    scene: scene.body,
     font,
     text: `【ガチャ結果】
 ${itemTexts.join("\n")}
@@ -199,7 +197,7 @@ ${itemTexts.join("\n")}
     y: 50,
     textAlign: g.TextAlign.Center
   });
-  scene.appendLayer(label, { name: "result" });
+  scene.appendLayer(label, {name: "result"});
 
   if (scene.gameState.variables.current.trials < scene.gameState.variables.system.maxTrials) {
     const layer = {
@@ -263,7 +261,7 @@ export const registerScripts = (engine: novel.Engine) => {
     const scene = controller.current;
     scene.disableWindowClick();
     scene.transition("black", (layer: g.E) => {
-      const timeline = new tl.Timeline(scene);
+      const timeline = new tl.Timeline(scene.body);
       timeline.create(layer, {modified: layer.modified, destroyed: layer.destroyed}).fadeOut(duration);
     });
   });
@@ -279,14 +277,15 @@ export const registerScripts = (engine: novel.Engine) => {
     const scene = controller.current;
     scene.disableWindowClick();
     scene.transition("black", (layer: g.E) => {
-      const timeline = new tl.Timeline(scene);
-      timeline.create(layer, {modified: layer.modified, destroyed: layer.destroyed})
+      const timeline = new tl.Timeline(scene.body);
+      timeline
+        .create(layer, {modified: layer.modified, destroyed: layer.destroyed})
         .fadeIn(duration)
         .call(() => {
           controller.jump({
             tag: core.Tag.jump,
             label: data.label
-          })
+          });
         });
     });
   });
@@ -306,11 +305,11 @@ export const registerScripts = (engine: novel.Engine) => {
       height: 32,
       text: "はじめる",
       fontSize: 32,
-        backgroundImage: "yellow",
-        padding: 4,
-        backgroundEffector: {
-          borderWidth: 4
-        },
+      backgroundImage: "yellow",
+      padding: 4,
+      backgroundEffector: {
+        borderWidth: 4
+      },
       scripts: [
         {
           tag: core.Tag.extension,

@@ -5,7 +5,7 @@ import {Tag} from "./constants";
 
 export const createLink = (controller: SceneController, link: core.Link) => {
   const params: LabelButtonParameters = {
-    scene: controller.current,
+    scene: controller.current.body,
     width: link.width,
     height: link.height,
     backgroundImage: link.backgroundImage,

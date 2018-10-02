@@ -56,7 +56,8 @@ const config: Config = {
     messageSpeed: 1000 / g.game.fps,
     autoMessageDuration: 1500,
     alreadyRead: false,
-    realTimeDisplay: false
+    realTimeDisplay: false,
+    autoSave: false
   },
   audio: {
     voice: 0.5,
