@@ -1,10 +1,10 @@
 import * as core from "@cowlick/core";
-import {Engine, SceneController} from "@cowlick/engine";
-import {LabelButtonParameters, LabelButton} from "./LabelButton";
+import * as novel from "@cowlick/engine";
 import {Tag} from "./constants";
 
-export const createLink = (controller: SceneController, link: core.Link) => {
-  const params: LabelButtonParameters = {
+export const createLink = (controller: novel.SceneController, link: core.Link) => {
+  // FIXME: LabelButtonParamatersが公開されたら型を明示する
+  const params = {
     scene: controller.current.body,
     width: link.width,
     height: link.height,
@@ -14,15 +14,15 @@ export const createLink = (controller: SceneController, link: core.Link) => {
     text: link.text,
     config: controller.config,
     gameState: controller.current.gameState
-  };
+  } as any;
   if (link.fontSize) {
     params.fontSize = link.fontSize;
   }
-  const button = new LabelButton(params);
+  const button = new novel.LabelButton(params);
   button.move(link.layer.x, link.layer.y);
   for (const script of link.scripts) {
     button.onClick.add(() => {
-      Engine.scriptManager.call(controller, script);
+      novel.Engine.scriptManager.call(controller, script);
     });
   }
   return button;
