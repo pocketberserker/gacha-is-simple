@@ -18,23 +18,30 @@ interface NextScene {
   label: string;
 }
 
-const duration = 700;
+const duration = 300;
 
 const drawLot = (controller: novel.SceneController, data: DrawLot) => {
   const scene = controller.current;
-  scene.gameState.variables.current.trials++;
-  const result = gacha.draw(data.id);
-  scene.gameState.variables.current.gacha = {
-    id: data.id,
-    price: result.price,
-    items: result.items
-  };
+  scene.transition("button", (layer: g.E) => {
+    layer.touchable = false;
+    layer.pointUp.removeAll();
+    for (const c of layer.children) {
+      c.pointUp.removeAll();
+    }
+  });
   scene.transition("black", (layer: g.E) => {
     const timeline = new tl.Timeline(scene.body);
     timeline
       .create(layer, {modified: layer.modified, destroyed: layer.destroyed})
       .fadeIn(duration)
       .call(() => {
+        scene.gameState.variables.current.trials++;
+        const result = gacha.draw(data.id);
+        scene.gameState.variables.current.gacha = {
+          id: data.id,
+          price: result.price,
+          items: result.items
+        };
         controller.jump(result.target);
       });
   });
