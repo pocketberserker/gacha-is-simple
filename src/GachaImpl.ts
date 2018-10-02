@@ -55,22 +55,6 @@ export class Gacha {
         },
         {
           tag: core.Tag.image,
-          assetId: "yellow",
-          layer: {
-            name: "black",
-            opacity: 0
-          }
-        },
-        {
-          tag: core.Tag.image,
-          assetId: "red",
-          layer: {
-            name: "black",
-            opacity: 0
-          }
-        },
-        {
-          tag: core.Tag.image,
           assetId: "greeting",
           layer: {name: "background"}
         },

@@ -152,6 +152,11 @@
 			"type": "script",
 			"path": "script/prologue_9_0.js",
 			"global": true
+		},
+		"AssetCollector": {
+			"type": "script",
+			"path": "script/AssetCollector.js",
+			"global": true
 		}
 	},
 	"environment": {
